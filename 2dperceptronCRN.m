@@ -1,9 +1,9 @@
 
-Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_,weight1_,weight2_]:=
+Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_]:=
 (
   crn = {
     conc[zero,0],conc[neg, -1], conc[pos, 1],
-    conc[wx,weight1],conc[wy,weight2],
+    conc[wx,0],conc[wy,0],
     conc[addWeight,0],
     
     (*initialising variables*)
@@ -22,14 +22,17 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
     *)
     
     step[{
-      mul[ax,wx,sx],mul[ay*ay,sy],
+      mul[ax,wx,sx],mul[ay,wy,sy],
     }],
     (* start of repeat*)
     step[{
       add[sx,sy,y]
     }],
     step[{
-      cmp[y, zero] #see if the response is neg or pos
+      mul[y,aAns,ytmp]
+    }],
+    step[{
+      cmp[ytmp, zero] (*see if Pos -> correct, neg -> wrong*)
       mul[ax,y,addWeightx],
       mul[ay,y,addWeighty],
     }],
@@ -37,23 +40,9 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
       add[wx,addWeightx,newWeightx],
       add[wy,addWeighty,newWeighty]
     }],
-    step[{ #step transfer function
-      ifGT[{ #if response pos
-        ld[y,pos] #y becomes 1 which is loaded back at the front #step2
-      }],
-      ifLT[{ #if res is neg
-        ld[y,neg] #y becomes -1
-      }]
-    }],
-    step[{
-      cmp[y,aAns]
-    }],
+   
     step[{
       ifLT[{
-        ld[newWeightx,wx]
-        ld[newWeighty,wy]
-      }]
-      ifGT[{
         ld[newWeightx,wx]
         ld[newWeighty,wy]
       }]
@@ -67,7 +56,10 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
       add[sx,sy,y]
     }],
     step[{
-      cmp[y, zero] #see if the response is neg or pos
+      mul[y,bAns,ytmp]
+    }],
+    step[{
+      cmp[ytmp, zero] (*see if Pos -> correct, neg -> wrong*)
       mul[ax,y,addWeightx],
       mul[ay,y,addWeighty],
     }],
@@ -75,36 +67,26 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
       add[wx,addWeightx,newWeightx],
       add[wy,addWeighty,newWeighty]
     }],
-    step[{ #step transfer function
-      ifGT[{ #if response pos
-        ld[y,pos] #y becomes 1 which is loaded back at the front #step2
-      }],
-      ifLT[{ #if res is neg
-        ld[y,neg] #y becomes -1
-      }]
-    }],
-    step[{
-      cmp[y,aAns]
-    }],
+   
     step[{
       ifLT[{
         ld[newWeightx,wx]
         ld[newWeighty,wy]
       }]
-      ifGT[{
-        ld[newWeightx,wx]
-        ld[newWeighty,wy]
-      }]
-    }]
+    }],
+   
     step[{
       mul[cx,wx,sx],mul[cy*wy,sy],
     }],
     (*repeat*)
-    step[{
+   step[{
       add[sx,sy,y]
     }],
     step[{
-      cmp[y, zero] #see if the response is neg or pos
+      mul[y,cAns,ytmp]
+    }],
+    step[{
+      cmp[ytmp, zero] (*see if Pos -> correct, neg -> wrong*)
       mul[ax,y,addWeightx],
       mul[ay,y,addWeighty],
     }],
@@ -112,27 +94,14 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
       add[wx,addWeightx,newWeightx],
       add[wy,addWeighty,newWeighty]
     }],
-    step[{ #step transfer function
-      ifGT[{ #if response pos
-        ld[y,pos] #y becomes 1 which is loaded back at the front #step2
-      }],
-      ifLT[{ #if res is neg
-        ld[y,neg] #y becomes -1
-      }]
-    }],
-    step[{
-      cmp[y,aAns]
-    }],
+   
     step[{
       ifLT[{
         ld[newWeightx,wx]
         ld[newWeighty,wy]
       }]
-      ifGT[{
-        ld[newWeightx,wx]
-        ld[newWeighty,wy]
-      }]
-    }]
+    }],
+   
     step[{
       mul[dx,wx,sx],mul[dy*wy,sy],
     }], 
@@ -141,7 +110,10 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
       add[sx,sy,y]
     }],
     step[{
-      cmp[y, zero] #see if the response is neg or pos
+      mul[y,dAns,ytmp]
+    }],
+    step[{
+      cmp[ytmp, zero] (*see if Pos -> correct, neg -> wrong*)
       mul[ax,y,addWeightx],
       mul[ay,y,addWeighty],
     }],
@@ -149,36 +121,27 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
       add[wx,addWeightx,newWeightx],
       add[wy,addWeighty,newWeighty]
     }],
-    step[{ #step transfer function
-      ifGT[{ #if response pos
-        ld[y,pos] #y becomes 1 which is loaded back at the front #step2
-      }],
-      ifLT[{ #if res is neg
-        ld[y,neg] #y becomes -1
-      }]
-    }],
-    step[{
-      cmp[y,aAns]
-    }],
+   
     step[{
       ifLT[{
         ld[newWeightx,wx]
         ld[newWeighty,wy]
-      }]
-      ifGT[{
-        ld[newWeightx,wx]
-        ld[newWeighty,wy]
-      }]
-    }]
+      }
+    }],
+    
     step[{
       mul[ex,wx,sx],mul[ey*wy,sy],
     }], 
     (*repeat*)
+    
     step[{
       add[sx,sy,y]
     }],
     step[{
-      cmp[y, zero] #see if the response is neg or pos
+      mul[y,eAns,ytmp]
+    }],
+    step[{
+      cmp[ytmp, zero] (*see if Pos -> correct, neg -> wrong*)
       mul[ax,y,addWeightx],
       mul[ay,y,addWeighty],
     }],
@@ -186,27 +149,13 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
       add[wx,addWeightx,newWeightx],
       add[wy,addWeighty,newWeighty]
     }],
-    step[{ #step transfer function
-      ifGT[{ #if response pos
-        ld[y,pos] #y becomes 1 which is loaded back at the front #step2
-      }],
-      ifLT[{ #if res is neg
-        ld[y,neg] #y becomes -1
-      }]
-    }],
-    step[{
-      cmp[y,aAns]
-    }],
+   
     step[{
       ifLT[{
         ld[newWeightx,wx]
         ld[newWeighty,wy]
       }]
-      ifGT[{
-        ld[newWeightx,wx]
-        ld[newWeighty,wy]
-      }]
-    }]
+    }],
   };
   Return[crn];
  )
