@@ -6,7 +6,7 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
     conc[wx,weight1],conc[wy,weight2],
     conc[addWeight,0],
     
-    #initialising variables
+    (*initialising variables*)
     conc[ax,a1],conc[ay,a2],
     conc[bx,b1],conc[by,b2],
     conc[cx,c1],conc[cy,c2],
