@@ -42,7 +42,7 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
    
     step[{
       ifLT[{
-        ld[newWeightx,wx]
+        ld[newWeightx,wx],
         ld[newWeighty,wy]
       }]
     }], 
@@ -69,7 +69,7 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
    
     step[{
       ifLT[{
-        ld[newWeightx,wx]
+        ld[newWeightx,wx],
         ld[newWeighty,wy]
       }]
     }],
@@ -96,7 +96,7 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
    
     step[{
       ifLT[{
-        ld[newWeightx,wx]
+        ld[newWeightx,wx],
         ld[newWeighty,wy]
       }]
     }],
@@ -123,7 +123,7 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
    
     step[{
       ifLT[{
-        ld[newWeightx,wx]
+        ld[newWeightx,wx],
         ld[newWeighty,wy]
       }
     }],
@@ -151,7 +151,7 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
    
     step[{
       ifLT[{
-        ld[newWeightx,wx]
+        ld[newWeightx,wx],
         ld[newWeighty,wy]
       }]
     }],
