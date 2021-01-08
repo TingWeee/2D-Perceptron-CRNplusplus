@@ -19,18 +19,13 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
     new wy = ay*y + wy
     *)
     
+    mul[ax,wx,sx],
+    mul[ay,wy,sy],
+    add[sx,sy,y],
+    mul[y,aAns,ytmp],
+      
     step[{
-      mul[ax,wx,sx],mul[ay,wy,sy],
-    }],
-    (* start of repeat*)
-    step[{
-      add[sx,sy,y]
-    }],
-    step[{
-      mul[y,aAns,ytmp]
-    }],
-    step[{
-      cmp[ytmp, zero] (*see if Pos -> correct, neg -> wrong*)
+      cmp[ytmp, zero], (*see if Pos -> correct, neg -> wrong*)
       mul[ax,y,addWeightx],
       mul[ay,y,addWeighty],
       add[wx,addWeightx,newWeightx],
