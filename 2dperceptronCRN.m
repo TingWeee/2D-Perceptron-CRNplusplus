@@ -1,150 +1,110 @@
-
-Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_]:=
+Get[NotebookDirectory[]<>"init.m"];
+Perceptron[a1_,a2_,ans_,b1_,b2_,ansb_,c1_,c2_,ansc_,d1_,d2_,ansd_,e1_,e2_,anse_] :=
 (
-  crn = {
-    conc[zero,0],conc[neg, -1],
-    conc[wx,0],conc[wy,0],
-    
-    (*initialising variables*)
-    conc[ax,a1],conc[ay,a2],
-    conc[bx,b1],conc[by,b2],
-    conc[cx,c1],conc[cy,c2],
-    conc[dx,d1],conc[dy,d2],
-    conc[ex,e1],conc[ey,e2],
-    
-    (*
-    each step is in an INFINITE loop
-    we expect wx and wy to converge eventually
-    y = ax*wx + ay*wy this the weighted sum
-    new wx = ax*y + wx
-    new wy = ay*y + wy
-    *)
-    
-    step[{
-      mul[ax,wx,sx],mul[ay,wy,sy],
-    }],
-    (* start of repeat*)
-    step[{
-      add[sx,sy,y]
-    }],
-    step[{
-      mul[y,aAns,ytmp]
-    }],
-    step[{
-      cmp[ytmp, zero] (*see if Pos -> correct, neg -> wrong*)
-      mul[ax,y,addWeightx],
-      mul[ay,y,addWeighty],
-      add[wx,addWeightx,newWeightx],
-      add[wy,addWeighty,newWeighty]
-    }],
-   
-    step[{
-      ifLT[{
-        ld[newWeightx,wx],
-        ld[newWeighty,wy]
-      }]
-    }], 
-    (* end of repeat*)
-    
-    step[{
-      mul[bx,wx,sx],mul[by*wy,sy],
-    }],
-    step[{
-      add[sx,sy,y]
-    }],
-    step[{
-      mul[y,bAns,ytmp]
-    }],
-    step[{
-      cmp[ytmp, zero] (*see if Pos -> correct, neg -> wrong*)
-      mul[ax,y,addWeightx],
-      mul[ay,y,addWeighty],
-      add[wx,addWeightx,newWeightx],
-      add[wy,addWeighty,newWeighty]
-    }],
-   
-    step[{
-      ifLT[{
-        ld[newWeightx,wx],
-        ld[newWeighty,wy]
-      }]
-    }],
-   
-    step[{
-      mul[cx,wx,sx],mul[cy*wy,sy],
-    }],
-    (*repeat*)
-   step[{
-      add[sx,sy,y]
-    }],
-    step[{
-      mul[y,cAns,ytmp]
-    }],
-    step[{
-      cmp[ytmp, zero] (*see if Pos -> correct, neg -> wrong*)
-      mul[ax,y,addWeightx],
-      mul[ay,y,addWeighty],
-      add[wx,addWeightx,newWeightx],
-      add[wy,addWeighty,newWeighty]
-    }],
-   
-    step[{
-      ifLT[{
-        ld[newWeightx,wx],
-        ld[newWeighty,wy]
-      }]
-    }],
-   
-    step[{
-      mul[dx,wx,sx],mul[dy*wy,sy],
-    }], 
-    (*repeat*)
-    step[{
-      add[sx,sy,y]
-    }],
-    step[{
-      mul[y,dAns,ytmp]
-    }],
-    step[{
-      cmp[ytmp, zero] (*see if Pos -> correct, neg -> wrong*)
-      mul[ax,y,addWeightx],
-      mul[ay,y,addWeighty],
-      add[wx,addWeightx,newWeightx],
-      add[wy,addWeighty,newWeighty]
-    }],
-   
-    step[{
-      ifLT[{
-        ld[newWeightx,wx],
-        ld[newWeighty,wy]
-      }
-    }],
-    
-    step[{
-      mul[ex,wx,sx],mul[ey*wy,sy],
-    }], 
-    (*repeat*)
-    
-    step[{
-      add[sx,sy,y]
-    }],
-    step[{
-      mul[y,eAns,ytmp]
-    }],
-    step[{
-      cmp[ytmp, zero] (*see if Pos -> correct, neg -> wrong*)
-      mul[ax,y,addWeightx],
-      mul[ay,y,addWeighty],
-      add[wx,addWeightx,newWeightx],
-      add[wy,addWeighty,newWeighty]
-    }],
-   
-    step[{
-      ifLT[{
-        ld[newWeightx,wx],
-        ld[newWeighty,wy]
-      }]
-    }],
-  };
-  Return[crn];
- )
+	crn = {
+		conc[ax,a1],conc[ay,a2],
+		conc[bx,b1],conc[by,b2],
+		conc[cx,c1],conc[cy,c2],
+		conc[dx,d1],conc[dy,d2],
+		conc[wx,0],conc[wy,0],conc[one,1], conc[zero,0],
+		step[{
+			mul[ax,wx,sx],
+			mul[ay,wy,sy],
+			add[sx,sy,y],
+			mul[y,ans,ytmp],
+			cmp[ytmp,zero],
+			mul[ax,ans,addWeightx],
+			mul[ay,ans,addWeighty],
+			add[wx,addWeightx,newWeightx],
+			add[wy,addWeighty,newWeighty]
+		}],
+		step[{
+			ifLE[{
+				ld[newWeightx,wx],
+				ld[newWeighty,wy]
+			}]
+		
+		}],
+		step[{
+			mul[bx,wx,sx],
+			mul[by,wy,sy],
+			add[sx,sy,y],
+			mul[y,ansb,ytmp],
+			cmp[ytmp,zero],
+			mul[bx,ansb,addWeightx],
+			mul[by,ansb,addWeighty],
+			add[wx,addWeightx,newWeightx],
+			add[wy,addWeighty,newWeighty]
+		}],
+		step[{
+			ifLE[{
+				ld[newWeightx,wx],
+				ld[newWeighty,wy]
+			}]
+		
+		}],
+		step[{
+			mul[cx,wx,sx],
+			mul[cy,wy,sy],
+			add[sx,sy,y],
+			mul[y,ansc,ytmp],
+			cmp[ytmp,zero],
+			mul[cx,ansc,addWeightx],
+			mul[cy,ansc,addWeighty],
+			add[wx,addWeightx,newWeightx],
+			add[wy,addWeighty,newWeighty]
+		}],
+		step[{
+			ifLE[{
+				ld[newWeightx,wx],
+				ld[newWeighty,wy]
+			}]
+		
+		}],
+		step[{
+			mul[dx,wx,sx],
+			mul[dy,wy,sy],
+			add[sx,sy,y],
+			mul[y,ansd,ytmp],
+			cmp[ytmp,zero],
+			mul[dx,ansd,addWeightx],
+			mul[dy,ansd,addWeighty],
+			add[wx,addWeightx,newWeightx],
+			add[wy,addWeighty,newWeighty]
+		}],
+		step[{
+			ifLE[{
+				ld[newWeightx,wx],
+				ld[newWeighty,wy]
+			}]
+		
+		}],
+		step[{
+			mul[ex,wx,sx],
+			mul[ey,wy,sy],
+			add[sx,sy,y],
+			mul[y,anse,ytmp],
+			cmp[ytmp,zero],
+			mul[ex,anse,addWeightx],
+			mul[ey,anse,addWeighty],
+			add[wx,addWeightx,newWeightx],
+			add[wy,addWeighty,newWeighty]
+		}],
+		step[{
+			ifLE[{
+				ld[newWeightx,wx],
+				ld[newWeighty,wy]
+			}]
+		
+		}]
+		
+	};
+	Return[crn];
+);
+
+Get[NotebookDirectory[]<>"/counter.m"]
+tmax=112200;
+rsys = Perceptron[0,1,1, 1,2,1, 2,3,1, 0,-1,-1,1,0,-1];
+sol=SimulateRxnsys[ExpandDiscreteRsys[rsys],tmax];
+PlotForPaper[Evaluate[{wx[t]}/.sol,tmax,2000]]
+PlotForPaper[Evaluate[{wy[t]}/.sol,tmax,2000]]
