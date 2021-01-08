@@ -4,7 +4,6 @@ Perceptron[a1_,a2_,aAns_,b1_,b2_,bAns_,c1_,c2_,cAns_,d1_,d2_,dAns_,e1_,e2_,eAns_
   crn = {
     conc[zero,0],conc[neg, -1], conc[pos, 1],
     conc[wx,0],conc[wy,0],
-    conc[addWeight,0],
     
     (*initialising variables*)
     conc[ax,a1],conc[ay,a2],
