@@ -2,19 +2,23 @@ Get[NotebookDirectory[]<>"init.m"];
 Perceptron[a1_,a2_,ans_,b1_,b2_,ansb_,c1_,c2_,ansc_,d1_,d2_,ansd_,e1_,e2_,anse_] :=
 (
 	crn = {
-		conc[ax,a1],conc[ay,a2],
-		conc[bx,b1],conc[by,b2],
-		conc[cx,c1],conc[cy,c2],
-		conc[dx,d1],conc[dy,d2],
+		conc[bias,0],
+		conc[ax,a1],conc[ay,a2],conc[aans,ans],
+		conc[bx,b1],conc[by,b2],conc[bans,ansb],
+		conc[cx,c1],conc[cy,c2],conc[cans,ansc],
+		conc[dx,d1],conc[dy,d2],conc[dans,ansd],
+		conc[ex,e1],conc[ey,e2],conc[eans,anse],
 		conc[wx,0],conc[wy,0],conc[one,1], conc[zero,0],
+		
 		step[{
 			mul[ax,wx,sx],
 			mul[ay,wy,sy],
 			add[sx,sy,y],
-			mul[y,ans,ytmp],
+			add[y,bias,yb],
+			mul[yb,aans,ytmp],
 			cmp[ytmp,zero],
-			mul[ax,ans,addWeightx],
-			mul[ay,ans,addWeighty],
+			mul[ax,aans,addWeightx],
+			mul[ay,aans,addWeighty],
 			add[wx,addWeightx,newWeightx],
 			add[wy,addWeighty,newWeighty]
 		}],
@@ -23,16 +27,16 @@ Perceptron[a1_,a2_,ans_,b1_,b2_,ansb_,c1_,c2_,ansc_,d1_,d2_,ansd_,e1_,e2_,anse_]
 				ld[newWeightx,wx],
 				ld[newWeighty,wy]
 			}]
-		
 		}],
 		step[{
 			mul[bx,wx,sx],
 			mul[by,wy,sy],
 			add[sx,sy,y],
-			mul[y,ansb,ytmp],
+			add[y,bias,yb],
+			mul[yb,bans,ytmp],
 			cmp[ytmp,zero],
-			mul[bx,ansb,addWeightx],
-			mul[by,ansb,addWeighty],
+			mul[bx,bans,addWeightx],
+			mul[by,bans,addWeighty],
 			add[wx,addWeightx,newWeightx],
 			add[wy,addWeighty,newWeighty]
 		}],
@@ -43,14 +47,16 @@ Perceptron[a1_,a2_,ans_,b1_,b2_,ansb_,c1_,c2_,ansc_,d1_,d2_,ansd_,e1_,e2_,anse_]
 			}]
 		
 		}],
+		
 		step[{
 			mul[cx,wx,sx],
 			mul[cy,wy,sy],
 			add[sx,sy,y],
-			mul[y,ansc,ytmp],
+			add[y,bias,yb],
+			mul[yb,cans,ytmp],
 			cmp[ytmp,zero],
-			mul[cx,ansc,addWeightx],
-			mul[cy,ansc,addWeighty],
+			mul[cx,cans,addWeightx],
+			mul[cy,cans,addWeighty],
 			add[wx,addWeightx,newWeightx],
 			add[wy,addWeighty,newWeighty]
 		}],
@@ -61,14 +67,16 @@ Perceptron[a1_,a2_,ans_,b1_,b2_,ansb_,c1_,c2_,ansc_,d1_,d2_,ansd_,e1_,e2_,anse_]
 			}]
 		
 		}],
+	
 		step[{
 			mul[dx,wx,sx],
 			mul[dy,wy,sy],
 			add[sx,sy,y],
-			mul[y,ansd,ytmp],
+			add[y,bias,yb],
+			mul[yb,dans,ytmp],
 			cmp[ytmp,zero],
-			mul[dx,ansd,addWeightx],
-			mul[dy,ansd,addWeighty],
+			mul[dx,dans,addWeightx],
+			mul[dy,dans,addWeighty],
 			add[wx,addWeightx,newWeightx],
 			add[wy,addWeighty,newWeighty]
 		}],
@@ -83,10 +91,11 @@ Perceptron[a1_,a2_,ans_,b1_,b2_,ansb_,c1_,c2_,ansc_,d1_,d2_,ansd_,e1_,e2_,anse_]
 			mul[ex,wx,sx],
 			mul[ey,wy,sy],
 			add[sx,sy,y],
-			mul[y,anse,ytmp],
+			add[y,bias,yb],
+			mul[yb,eans,ytmp],
 			cmp[ytmp,zero],
-			mul[ex,anse,addWeightx],
-			mul[ey,anse,addWeighty],
+			mul[ex,eans,addWeightx],
+			mul[ey,eans,addWeighty],
 			add[wx,addWeightx,newWeightx],
 			add[wy,addWeighty,newWeighty]
 		}],
@@ -95,16 +104,20 @@ Perceptron[a1_,a2_,ans_,b1_,b2_,ansb_,c1_,c2_,ansc_,d1_,d2_,ansd_,e1_,e2_,anse_]
 				ld[newWeightx,wx],
 				ld[newWeighty,wy]
 			}]
-		
 		}]
-		
 	};
 	Return[crn];
 );
 
-Get[NotebookDirectory[]<>"/counter.m"]
-tmax=112200;
+
+
+tmax=2200;
 rsys = Perceptron[0,1,1, 1,2,1, 2,3,1, 0,-1,-1,1,0,-1];
 sol=SimulateRxnsys[ExpandDiscreteRsys[rsys],tmax];
-PlotForPaper[Evaluate[{wx[t]}/.sol,tmax,2000]]
-PlotForPaper[Evaluate[{wy[t]}/.sol,tmax,2000]]
+PlotForPaper[Evaluate[{wx[t]}/.sol,tmax,200]]
+PlotForPaper[Evaluate[{wy[t]}/.sol,tmax,200]]
+errorMap=EvaluateError[rsys, tmax]
+cErrorList=errorMap[wx]/.{resultMap_}:>{resultMap["time"],resultMap["error"]};
+ListPlot[cErrorList,Ticks->{Range[0,tmax,100],Automatic}]
+Print["maximum error for c: "<>ToString[Max[cErrorList/.{time_,error_}->error]]];
+
