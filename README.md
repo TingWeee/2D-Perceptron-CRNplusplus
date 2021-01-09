@@ -12,11 +12,10 @@ As the programs are computed by manipulating the concentrations of chemical spec
 We did a simple testing and error evaluation with a set of five datapoints. The weights (wx,wy) were initialised to (0,0) and their alteration when 'trained' with datapoints are tracked. Each datapoint consist of (x vector, y vector, label). 
 
 dp: (0,1,1)
-![data1](https://user-images.githubusercontent.com/66665467/104083478-d865c200-5279-11eb-9e24-5f260c76cbf0.png)
+![data1](https://user-images.githubusercontent.com/66665467/104083880-3b0c8d00-527d-11eb-9cbc-0072b7e55fc1.png)
 dp: (0,1,1), (1,2,1)
-![data2](https://user-images.githubusercontent.com/66665467/104083515-3befef80-527a-11eb-9e14-b4acdeceb128.png)
+![data2](https://user-images.githubusercontent.com/66665467/104083882-3fd14100-527d-11eb-8d44-46ba02844de1.png)
 dp: (0,1,1), (1,2,1), (2,3,1)
-![data3](https://user-images.githubusercontent.com/66665467/104083547-8ffad400-527a-11eb-9e06-73cb9f95e625.png)
+![data3](https://user-images.githubusercontent.com/66665467/104083884-4364c800-527d-11eb-9cc3-5fe996915d30.png)
 dp: (0,1,1), (1,2,1), (2,3,1), (0,-1,-1), (1,0,-1)
-![data5](https://user-images.githubusercontent.com/66665467/104083581-ce908e80-527a-11eb-822d-d9fdcdcaf7ca.png)
-
+![data5](https://user-images.githubusercontent.com/66665467/104083886-465fb880-527d-11eb-8547-7f0d85bc6d5c.png)
